@@ -5,6 +5,8 @@
  *  Author: ahmed
  *
  * Dependencies 
+ ********<mdl_clock.h>
+*********<mdl_di.h>
  */ 
 
 
@@ -67,9 +69,38 @@ typedef enum RELAY_contact_status_ENUM
 
 /////////////////////////////////mdl_relay API interface funcitons/////////////////////////////////////////
 
+/*****************************************************************************************************//**
+* @details Function sets relay(index) ON/OFF
+*********************************************************************************************************
+* @param [in] index - Relay output pin index	see ::RELAY_index_ENUM.
+* @param [in] state - Relay ouput state ON/OFF	see ::RELAY_output_state_ENUM.
+* @return Nothing.
+********************************************************************************************************/
 void mdl_relay_set_output(RELAY_index_E relay_index, RELAY_output_state_E output);
+
+
+
+
+/*****************************************************************************************************//** 
+* @details Function returns relay feedback state based on index value. 
+********************************************************************************************************* 
+* @param [in] index - Relay output pin index	see ::RELAY_index_ENUM. 
+* @return Relay contact feedback state see ::RELAY_contact_status_ENUM. 
+********************************************************************************************************/
 RELAY_contact_status_E mdl_relay_read_feedback(RELAY_index_E relay_index);
+
+
+
+/*****************************************************************************************************//**
+* @details Function returns relay fault state based on index value.
+*********************************************************************************************************
+* @param [in] index - Relay output pin index	see ::RELAY_index_ENUM.
+* @return Relay contact fault state see ::RELAY_contact_status_ENUM.
+********************************************************************************************************/
 RELAY_fault_status_E mdl_relay_read_error(RELAY_index_E relay_index);
+
+
+
 
 /////////////////////////////////mdl_relay scheduler handling functions////////////////////////////////////
 
@@ -83,11 +114,38 @@ RELAY_fault_status_E mdl_relay_read_error(RELAY_index_E relay_index);
 **********************************************************************************************
 */
 
+/*****************************************************************************************************//**
+* @details Function init module initial values before scheduler call
+*********************************************************************************************************
+* @param Nothing
+* @return Nothing.
+********************************************************************************************************/
 void mdl_relay_init(void);
+
+/*****************************************************************************************************//**
+* @details schedular callback function
+*********************************************************************************************************
+* @periodic calling every 1ms to 10ms
+* @param void pointer to a struct (RTOS dependent)
+* @return Nothing.
+********************************************************************************************************/
 void mdl_relay_handler(void *param);
+
+
+/*****************************************************************************************************//**
+* @details Function terminate module, call after deleting the task from scheduler
+*********************************************************************************************************
+* @param Nothing
+* @return Nothing.
+********************************************************************************************************/
 void mdl_relay_terminate(void);
 
-
+/*****************************************************************************************************//**
+* @details Function returns execution clock ticks of [void mdl_relay_handler(void *param)] 
+*********************************************************************************************************
+* @param Nothing
+* @return clock ticks.
+********************************************************************************************************/
 uint32_t mdl_relay_get_handler_ticks(void);
 
 
